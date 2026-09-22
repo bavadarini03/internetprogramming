@@ -1,1 +1,0 @@
-<?php require_once "../config/auth.php";requireAdmin();require_once "../config/database.php";$id=(int)($_GET['id']??0);if($id){$s=$conn->prepare('DELETE FROM events WHERE event_id=?');$s->bind_param('i',$id);$s->execute();$s->close();}header('Location: manage-events.php');exit;?>

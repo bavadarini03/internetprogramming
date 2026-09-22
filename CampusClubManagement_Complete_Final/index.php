@@ -1,5 +1,0 @@
-<?php session_start(); ?>
-<!DOCTYPE html><html><head><title>Campus Club Management</title><link rel="stylesheet" href="css/style.css"></head><body>
-<nav class="navbar"><div class="logo">Campus Clubs</div><div class="nav-links"><a href="index.php">Home</a><a href="clubs.php">Clubs</a><a href="events.php">Events</a><a href="login.php">Login</a><a href="register.php">Register</a></div></nav>
-<div class="container"><div class="hero"><h1>Campus Club Management System</h1><p>Discover clubs, join communities, register for events and track your campus participation.</p><a class="btn" href="register.php">Get Started</a></div>
-<div class="grid"><div class="card"><h3>Clubs</h3><p>Explore technical, cultural, sports and creative clubs.</p></div><div class="card"><h3>Events</h3><p>Find upcoming campus events and register online.</p></div><div class="card"><h3>Participation</h3><p>Track attendance, feedback and event history.</p></div></div></div><div class="footer">Campus Club Management System • PHP + MySQL</div></body></html>

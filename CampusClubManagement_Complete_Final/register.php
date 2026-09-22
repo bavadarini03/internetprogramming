@@ -1,9 +1,0 @@
-<?php
-session_start(); require_once "config/database.php"; $error="";
-if($_SERVER["REQUEST_METHOD"]==="POST"){
-$name=trim($_POST["name"]);$reg=trim($_POST["register_no"]);$email=trim($_POST["email"]);$dept=trim($_POST["department"]);$year=(int)$_POST["year"];$p=$_POST["password"];
-if(strlen($p)<6)$error="Password must be at least 6 characters.";
-else{$c=$conn->prepare("SELECT id FROM users WHERE register_no=? OR email=?");$c->bind_param("ss",$reg,$email);$c->execute();if($c->get_result()->num_rows)$error="Register number or email already exists.";else{$hash=password_hash($p,PASSWORD_DEFAULT);$s=$conn->prepare("INSERT INTO users(name,register_no,email,department,year,password) VALUES(?,?,?,?,?,?)");$s->bind_param("ssssss",$name,$reg,$email,$dept,$year,$hash);$s->execute();$_SESSION["flash"]="Registration successful. Please login.";header("Location: login.php");exit;}}}
-?>
-<!DOCTYPE html><html><head><title>Register</title><link rel="stylesheet" href="css/style.css"></head><body><nav class="navbar"><div class="logo">Campus Clubs</div><div class="nav-links"><a href="index.php">Home</a><a href="login.php">Login</a></div></nav><div class="form-wrap"><div class="form-box"><h2>Create Student Account</h2><?php if($error):?><div class="alert error"><?=htmlspecialchars($error)?></div><?php endif;?><form method="post">
-<label>Name</label><input name="name" required><label>Register Number</label><input name="register_no" required><label>Email</label><input type="email" name="email" required><label>Department</label><input name="department" required><label>Year</label><select name="year"><option>1</option><option>2</option><option>3</option><option>4</option></select><label>Password</label><input type="password" name="password" required><button class="btn full">Register</button></form></div></div></body></html>

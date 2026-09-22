@@ -1,1 +1,0 @@
-document.addEventListener("DOMContentLoaded",()=>{setTimeout(()=>document.querySelectorAll(".alert").forEach(e=>e.style.opacity="0"),3500);document.querySelectorAll(".delete-confirm").forEach(b=>b.addEventListener("click",e=>{if(!confirm("Are you sure?"))e.preventDefault()}));});
