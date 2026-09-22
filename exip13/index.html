@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping - Order Viewer</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        .btn-load {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-load:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-load:active {
+            transform: scale(0.98);
+        }
+
+        .results-section {
+            margin-top: 30px;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #334155;
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .order-table th {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .order-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: #334155;
+        }
+
+        .order-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .order-table tr:hover {
+            background-color: #f1f5f9;
+        }
+    </style>
+    <script>
+        function loadOrders() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xml = this.responseXML;
+                    var orders = xml.getElementsByTagName("order");
+                    
+                    var output = "<h2>Order Details (" + orders.length + " Records)</h2>";
+                    output += "<table class='order-table'>";
+                    output += "<tr><th>ID</th><th>Customer</th><th>Product</th><th>Quantity</th><th>Price</th></tr>";
+                    
+                    for (var i = 0; i < orders.length; i++) {
+                        var o = orders[i];
+                        function val(tag) {
+                            return o.getElementsByTagName(tag)[0].childNodes[0].nodeValue;
+                        }
+                        
+                        var id = val("id");
+                        var customer = val("customer");
+                        var product = val("product");
+                        var quantity = val("quantity");
+                        var price = val("price");
+                        
+                        output += "<tr>";
+                        output += "<td><strong>#" + id + "</strong></td>";
+                        output += "<td>" + customer + "</td>";
+                        output += "<td>" + product + "</td>";
+                        output += "<td>" + quantity + "</td>";
+                        output += "<td>$" + parseFloat(price).toFixed(2) + "</td>";
+                        output += "</tr>";
+                    }
+                    
+                    output += "</table>";
+                    document.getElementById("orderData").innerHTML = output;
+                }
+            };
+            xhttp.open("GET", "orders.xml", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Online Shopping - Order Viewer</h1>
+        <button class="btn-load" onclick="loadOrders()">Load Orders</button>
+        <div id="orderData" class="results-section"></div>
+    </div>
+
+</body>
+</html>
